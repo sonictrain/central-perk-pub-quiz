@@ -12,17 +12,27 @@
   <body>
     <div class="scores"><a href="highscores.html">View Highscores</a></div>
 
-    <div class="timer">Time: <span id="time">0</span></div>
+    <div class="timer">Time: <span id="time">60</span></div>
 
     <div class="wrapper">
       <div id="start-screen" class="start">
-        <h1>Coding Quiz Challenge</h1>
+        <h1>Central Perk Pub Quiz</h1>
         <p>
-          Try to answer the following code-related questions within the time
-          limit. Keep in mind that incorrect answers will penalize your
-          score/time by ten seconds!
+          Welcome to the "Central Perk Pub Quiz"! Immerse yourself in the world of Friends with this time-based challenge.
+          From catchphrases to obscure moments, prove you're the ultimate Friends fan against the ticking clock.
+          You'll start with 60 seconds on the clock. For each correct answer, you'll earn an additional 15 seconds,
+          but beware - every wrong answer deducts 15 seconds from your time.
+          <br>
+          Good luck!
         </p>
         <button id="start">Start Quiz</button>
+
+        <!-- TEST COMPONENTS START -->
+        <button id="add">add 10 seconds</button>
+        <button id="remove">remove 10 seconds</button>
+        <!-- TEST COMPONENTS END -->
+
+
       </div>
 
       <div id="questions" class="hide">
