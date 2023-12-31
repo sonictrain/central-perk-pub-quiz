@@ -1,6 +1,13 @@
 const timerEl = document.getElementById('time');
+const startQuiz = document.getElementById('start');
+const startScreen = document.getElementById('start-screen');
+const questionScreen = document.getElementById('questions');
+const endScreen = document.getElementById('end-screen');
+
+// TEST VARIABLES START
 const addBtn = document.getElementById('add');
 const removeBtn = document.getElementById('remove');
+// TEST VARIABLES END
 
 let timeLeft = 60;
 
@@ -22,7 +29,13 @@ function countdown() {
     }, 1000);
 }
 
-countdown();
+startQuiz.addEventListener("click", function() {
+    startScreen.classList.remove('show');
+    startScreen.classList.add('hide');
+    questionScreen.classList.remove('hide');
+    questionScreen.classList.add('show');
+    countdown();
+})
 
 addBtn.addEventListener("click", function() {
     timeLeft += 15;
