@@ -55,8 +55,8 @@ function displayQuestion() {
     for (let i = 0; i < questionObj.options.length; i++) {
         const btn = document.createElement("button");
         const option = document.createTextNode(questionObj.options[i]);
-        btn.classList.add('choices')
-        btn.classList.appendChild(option);
+        btn.classList.add('choices');
+        btn.appendChild(option);
         choiceDiv.appendChild(btn);
     }
     currentQuestionID ++;
