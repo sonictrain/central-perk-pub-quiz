@@ -3,6 +3,8 @@ const startQuiz = document.getElementById('start');
 const startScreen = document.getElementById('start-screen');
 const questionScreen = document.getElementById('questions');
 const endScreen = document.getElementById('end-screen');
+const questionTitle = document.getElementById('question-title');
+const choiceDiv = document.getElementById('choices');
 
 // TEST VARIABLES START
 const addBtn = document.getElementById('add');
@@ -10,6 +12,8 @@ const removeBtn = document.getElementById('remove');
 // TEST VARIABLES END
 
 let timeLeft = 60;
+
+let currentQuestionID = 1;
 
 function countdown() {
 
@@ -34,8 +38,29 @@ startQuiz.addEventListener("click", function() {
     startScreen.classList.add('hide');
     questionScreen.classList.remove('hide');
     questionScreen.classList.add('show');
+
+    displayQuestion();
     countdown();
 })
+
+function displayQuestion() {
+    
+    // find the question object
+    questionObj = questions.find(q => q.id === currentQuestionID);
+
+    // get the question value and display it
+    questionTitle.textContent = questionObj.question;
+
+    // render the options value
+    for (let i = 0; i < questionObj.options.length; i++) {
+        const btn = document.createElement("button");
+        const option = document.createTextNode(questionObj.options[i]);
+        btn.classList.add('choices')
+        btn.classList.appendChild(option);
+        choiceDiv.appendChild(btn);
+    }
+    currentQuestionID ++;
+}
 
 addBtn.addEventListener("click", function() {
     timeLeft += 15;
