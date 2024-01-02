@@ -28,15 +28,9 @@ function countdown() {
     }, 1000);
 }
 
-startQuiz.addEventListener("click", function () {
-    startScreen.classList.remove('show');
-    startScreen.classList.add('hide');
-    questionScreen.classList.remove('hide');
-    questionScreen.classList.add('show');
-
-    displayQuestion();
-    countdown();
-})
+function extraTime(s) {
+    timeLeft += s;
+};
 
 function displayQuestion() {
 
@@ -59,35 +53,40 @@ function displayQuestion() {
     }
 }
 
+startQuiz.addEventListener("click", function () {
+    startScreen.classList.remove('show');
+    startScreen.classList.add('hide');
+    questionScreen.classList.remove('hide');
+    questionScreen.classList.add('show');
+
+    displayQuestion();
+    countdown();
+})
+
 choicesDiv.addEventListener("click", function (e) {
 
     const element = e.target;
 
     // If the element is a button
     if (element.matches("button")) {
+        // render the new question based on the new question ID
+        questionObj = questions.find(q => q.id === currentQuestionID);
 
-        // if currentQuestionID is not last question
-        if (currentQuestionID <= 10) {
+        // handle extraTime base on the answer
+        element.dataset.answer === questionObj.answer ? extraTime(15) : extraTime(-15);
 
-            // render the new question based on the new question ID
-            questionObj = questions.find(q => q.id === currentQuestionID);
-            
-            if (element.dataset.answer === questionObj.answer) {
-                console.log("CORRECT")
-                extraTime(15);
-            } else {
-                console.log("WRONG")
-                extraTime(-15);
-            }
-    
-            // wipe choices container before populate it with the next question
-            choicesDiv.innerHTML = '';
-            displayQuestion();
-    
-            // increase question ID
+        // wipe choices container before populate it with the next question
+        choicesDiv.innerHTML = '';
+
+        if (currentQuestionID < 10) {
+
+            // increase question ID to display the next question
             currentQuestionID++;
+            displayQuestion();
 
         } else {
+
+            // hide question screen and show end screen
             questionScreen.classList.remove('show');
             questionScreen.classList.add('hide');
             endScreen.classList.remove('hide');
@@ -95,7 +94,3 @@ choicesDiv.addEventListener("click", function (e) {
         }
     }
 });
-
-function extraTime(s) {
-    timeLeft += s;
-};
