@@ -48,37 +48,51 @@ function displayQuestion() {
 
     // render the options value
     for (let i = 0; i < questionObj.options.length; i++) {
+
         const btn = document.createElement("button");
         const option = document.createTextNode(questionObj.options[i]);
+
         btn.dataset.answer = questionObj.options[i];
         btn.appendChild(option);
+
         choicesDiv.appendChild(btn);
     }
 }
 
 choicesDiv.addEventListener("click", function (e) {
+
     const element = e.target;
 
     // If the element is a button
-    if (element.matches("button") === true) {
-        questionObj = questions.find(q => q.id === currentQuestionID);
-        
-        if (element.dataset.answer === questionObj.answer) {
-            console.log("CORRECT")
-            extraTime(15);
+    if (element.matches("button")) {
+
+        // if currentQuestionID is not last question
+        if (currentQuestionID <= 10) {
+
+            // render the new question based on the new question ID
+            questionObj = questions.find(q => q.id === currentQuestionID);
+            
+            if (element.dataset.answer === questionObj.answer) {
+                console.log("CORRECT")
+                extraTime(15);
+            } else {
+                console.log("WRONG")
+                extraTime(-15);
+            }
+    
+            // wipe choices container before populate it with the next question
+            choicesDiv.innerHTML = '';
+            displayQuestion();
+    
+            // increase question ID
+            currentQuestionID++;
+
         } else {
-            console.log("WRONG")
-            extraTime(-15);
+            questionScreen.classList.remove('show');
+            questionScreen.classList.add('hide');
+            endScreen.classList.remove('hide');
+            endScreen.classList.add('show');
         }
-
-        // wipe choices container before populate it with the next question
-        choicesDiv.innerHTML = '';
-
-        // increase question ID
-        currentQuestionID++;
-
-        // render the new question based on the new question ID
-        displayQuestion();
     }
 });
 
