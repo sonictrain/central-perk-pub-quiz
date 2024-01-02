@@ -5,12 +5,6 @@ const questionScreen = document.getElementById('questions');
 const endScreen = document.getElementById('end-screen');
 const questionTitle = document.getElementById('question-title');
 const choicesDiv = document.getElementById('choices');
-// const btn = document.getElementById('option');
-
-// TEST VARIABLES START
-const addBtn = document.getElementById('add');
-const removeBtn = document.getElementById('remove');
-// TEST VARIABLES END
 
 let timeLeft = 60;
 
