@@ -14,7 +14,21 @@ function renderHighscores() {
         for (let i = 0; i < storedScores.length; i++) {
 
             const li = document.createElement("li");
-            const userRank = document.createTextNode(`${storedScores[i].initials} - ${storedScores[i].score}`);
+            let userRank;
+
+            switch (i + 1) {
+                case 1:
+                    userRank = document.createTextNode(`${storedScores[i].initials} - ${storedScores[i].score} 🥇`);
+                    break;
+                case 2:
+                    userRank = document.createTextNode(`${storedScores[i].initials} - ${storedScores[i].score} 🥈`);
+                    break;
+                case 3:
+                    userRank = document.createTextNode(`${storedScores[i].initials} - ${storedScores[i].score} 🥉`);
+                    break;
+                default:
+                    userRank = document.createTextNode(`${storedScores[i].initials} - ${storedScores[i].score}`);
+            }
 
             li.appendChild(userRank);
             ranking.appendChild(li);
