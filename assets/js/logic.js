@@ -10,6 +10,8 @@ const initials = document.getElementById('initials');
 const submit = document.querySelector('#submit');
 const finalScore = document.getElementById('final-score');
 const feedback = document.getElementById('feedback');
+const endMsg = document.querySelector('#end-screen h2');
+
 const storedScores = JSON.parse(localStorage.getItem("Scores"));
 
 let timeLeft = 60;
@@ -28,18 +30,23 @@ function countdown() {
 
     const timeInterval = setInterval(function () {
 
-        timeLeft--; // time decrement
-        timerEl.textContent = timeLeft; // update dom with new timer value
+        timeLeft=timeLeft-0.01; // time decrement
+        timerEl.textContent = Math.round(timeLeft * 100) / 100; // update dom with new timer value
 
         if (timeLeft < 1 && timeLeft >= 0) {
             timerEl.textContent = timeLeft;
-            clearInterval(timeInterval); // stop the timer at 0 seconds remaining 
+            timerEl.textContent = "0";
+            clearInterval(timeInterval); // stop the timer at 0 seconds remaining
+            gameOver();
+
         } else if (timeLeft < 0) {
             timerEl.textContent = "0";
             clearInterval(timeInterval); // stop the timer at 0 seconds remaining 
+            gameOver();
+
         }
 
-    }, 1000);
+    }, 10);
 
     choicesDiv.addEventListener("click", function (e) {
 
@@ -49,21 +56,23 @@ function countdown() {
         if (element.matches("button")) {
             // render the new question based on the new question ID
             questionObj = questions.find(q => q.id === currentQuestionID);
+            console.log(`The correct answer is ${questionObj.answer}`);
 
             // handle extraTime base on the answer
             if (element.dataset.answer === questionObj.answer) {
+                console.log(`You selected ${element.dataset.answer} which is the right one.`);
                 // show feedbackMessage for 750ms
                 feedbackMessage('show', "Correct! ✅", 750);
+                console.log(`adding 15 seconds to the timer`);
                 extraTime(15);
             } else {
+                console.log(`You selected ${element.dataset.answer} which is the wrong one.`);
                 // show feedbackMessage for 750ms 
                 feedbackMessage('show', "Wrong! ❌", 750);
+                console.log(`removing 15 seconds from the timer`);
                 extraTime(-15);
             }
-            timerEl.textContent = timeLeft;
-
-            // wipe choices container before populate it with the next question
-            choicesDiv.innerHTML = '';
+            timerEl.textContent = Math.round(timeLeft * 100) / 100;
 
             if (currentQuestionID < 10) {
 
@@ -77,7 +86,7 @@ function countdown() {
                 clearInterval(timeInterval);
 
                 // save score
-                userObj.score = timeLeft;
+                userObj.score = Math.round(timeLeft * 100) / 100;
                 console.log(userObj.score);
                 finalScore.innerText = userObj.score;
 
@@ -96,10 +105,13 @@ function extraTime(s) {
 function displayQuestion() {
 
     // find the question object
-    questionObj = questions.find(q => q.id === currentQuestionID);
+    questionObj = questions[currentQuestionID-1];
 
     // get the question value and display it
     questionTitle.textContent = questionObj.question;
+
+    // wipe choices container before populate it with the next question
+    choicesDiv.innerHTML = '';
 
     // render the options value
     for (let i = 0; i < questionObj.options.length; i++) {
@@ -115,6 +127,7 @@ function displayQuestion() {
 }
 
 startQuiz.addEventListener("click", function () {
+
     startScreen.classList.add('hide');
     questionScreen.classList.remove('hide');
 
@@ -168,4 +181,13 @@ function feedbackMessage(action, text, millis) {
     if (text) {
         feedback.innerText = text;
     }
+}
+
+function gameOver() {
+    questionScreen.classList.add('hide');
+    endScreen.classList.remove('hide');
+    
+    endMsg.textContent = `GAME OVER! 🫣`;
+    finalScore.parentNode.innerHTML = `You can still save your score, even though it's 0, so that you can strive for improvement next time!`;
+
 }
